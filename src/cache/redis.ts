@@ -2,7 +2,7 @@ import { createClient } from "redis";
 import config from "../config/varibales";
 
 
-const client = createClient({ url: config.redisUrl });
+const client = createClient({ url: config.redisUrl  });
 
 client.on("connect", () => console.log("Cache is connecting"));
 client.on("ready", () => console.log("Cache is ready"));
@@ -16,7 +16,7 @@ const redisConnect = async () => {
 
 // If the Node process ends, close the Cache connection
 process.on("SIGINT", async () => {
-  await client.disconnect();
+  await client.disconnect()
 });
 
 export {

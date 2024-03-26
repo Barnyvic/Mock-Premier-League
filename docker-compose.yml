@@ -7,7 +7,7 @@ services:
       - "4000:4000"
     environment:
       MONGO_URI: "mongodb+srv://victorbarny4:Yungvicky007@cluster0.62hifgz.mongodb.net/"
-      REDIS_HOST: "redis"
+      redisURL: "rediss://red-co18cita73kc73f4ck40:O6sZyyxHtmuleOXN8Kq8dWH187Bcfoeq@oregon-redis.render.com:6379"
     depends_on:
       - redis
 
