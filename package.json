@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "repository": "https://github.com/Barnyvic/Mock-Premier-League",
   "scripts": {
     "start": "node dist/server.js",
     "dev": "nodemon ./src/server.ts",
