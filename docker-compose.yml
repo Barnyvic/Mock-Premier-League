@@ -6,7 +6,7 @@ services:
     ports:
       - "4000:4000"
     environment:
-      MONGODB_URI: "mongodb+srv://victorbarny4:Yungvicky007@cluster0.62hifgz.mongodb.net/premier-league"
+      MONGO_URI: "mongodb+srv://victorbarny4:Yungvicky007@cluster0.62hifgz.mongodb.net/"
       REDIS_HOST: "redis"
     depends_on:
       - redis
