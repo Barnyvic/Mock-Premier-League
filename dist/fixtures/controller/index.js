@@ -27,7 +27,7 @@ const createNewFixture = async (req, res, next) => {
             return res.status(code).send({ msg: msg, data: data });
         }
         else if (code === 400) {
-            return res.status(code).send({ msg });
+            return res.status(code).send({ msg: msg });
         }
     }
     catch (error) {
@@ -46,7 +46,7 @@ const deleteFixtureById = async (req, res, next) => {
             return res.status(200).json({ code: 200, msg: "Successfully deleted" });
         }
         else {
-            return next({ code: 403, msg: 'We could not perform the delete operation on the selected Team at the moment, please try again later' });
+            return next({ code: 404, msg: 'Fixture data not found' });
         }
     }
     catch (error) {
@@ -69,7 +69,7 @@ const editFixtureById = async (req, res, next) => {
             return res.status(200).json({ code: 200, msg: "Successfully updated" });
         }
         else {
-            return next({ code: 403, msg: 'We could not perform the update operation on the selected Fixture at the moment, please try again later' });
+            return next({ code: 404, msg: 'Fixture data not found' });
         }
     }
     catch (error) {

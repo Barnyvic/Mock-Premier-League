@@ -8,6 +8,6 @@ const teamRouter = (0, express_1.Router)();
 teamRouter.post("/create-new-team", auth_1.authGuard, auth_1.adminGuard, validator_1.validateTeam, controller_1.createNewTeam);
 teamRouter.delete("/:id/delete", auth_1.authGuard, auth_1.adminGuard, controller_1.deleteTeamById);
 teamRouter.put("/:id/update", auth_1.authGuard, auth_1.adminGuard, controller_1.updateTeamById);
-teamRouter.get("/:id", controller_1.getOneTeam);
-teamRouter.get("/", controller_1.getAllTeams);
+teamRouter.get("/:id", auth_1.authGuard, auth_1.adminGuard, controller_1.getOneTeam);
+teamRouter.get("/", auth_1.authGuard, auth_1.adminGuard, controller_1.getAllTeams);
 exports.default = teamRouter;

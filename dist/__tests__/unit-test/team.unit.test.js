@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const controller_1 = require("../../teams/controller");
 const express_validator_1 = require("express-validator");
 const service_1 = require("../../teams/service");
+const crud_1 = require("../../utils/crud");
 jest.mock('express-validator');
 jest.mock('../../teams/service', () => ({
     createTeam: jest.fn(),
@@ -73,91 +74,84 @@ describe('createNewTeam', () => {
         expect(res.status).toHaveBeenCalledWith(400);
     });
 });
-// describe('deleteTeamById', () => {
-//     let req: Partial<Request>;
-//     let res: Partial<Response>;
-//     let next: jest.Mock;
-//     beforeEach(() => {
-//         req = {
-//             params: { id: "validTeamId" },
-//             body: {}
-//         } as unknown as Request;
-//           res = {
-//             status: jest.fn().mockReturnThis(),
-//             json: jest.fn()
-//           };
-//           next = jest.fn();
-//       });
-//     afterEach(() => {
-//         jest.clearAllMocks();
-//     });
-//     it('should return 400 if team ID is invalid', async () => {
-//         if (req.params) {
-//             req.params.id = 'invalidTeamId';
-//         }
-//         await deleteTeamById(req as Request, res as Response, next);
-//         expect(next).toHaveBeenCalledWith({ code: 400, msg: 'Invalid team ID' });
-//     });
-//     it('should return 403 if deletion operation fails', async () => {
-//         const mockedDeleteResponse = { acknowledged: false, deletedCount: 0 };
-//         if(req.params) {
-//             req.params.id = 'validTeamId';
-//         }
-//         (deleteTeam as jest.Mock).mockResolvedValueOnce(mockedDeleteResponse);
-//         await deleteTeamById(req as Request, res as Response, next);
-//         expect(deleteTeam).toHaveBeenCalledWith('validTeamId');
-//         expect(next).toHaveBeenCalledWith({ code: 403, msg: 'We could not perform the delete operation on the selected Team at the moment, please try again later' });
-//     });
-// })
-// describe('updateTeamById', () => {
-//     let req: Partial<Request>;
-//     let res: Partial<Response>;
-//     let next: jest.Mock;
-//     beforeEach(() => {
-//       req = {
-//         params: { id: 'validObjectId' },
-//         body: { name: 'New Team Name' }
-//       };
-//       res = {
-//         status: jest.fn().mockReturnThis(),
-//         json: jest.fn()
-//       };
-//       next = jest.fn();
-//     });
-//     it('should update team by ID', async () => {
-//       const mockResponse = { acknowledged: true, modifiedCount: 1 };
-//       (editTeam as jest.Mock).mockResolvedValue(mockResponse);;
-//       await updateTeamById(req as Request, res as Response, next);
-//       expect(editTeam).toHaveBeenCalledWith('validObjectId', req.body);
-//       expect(res.status).toHaveBeenCalledWith(200);
-//       expect(res.json).toHaveBeenCalledWith({ code: 200, msg: 'Successfully updated' });
-//       expect(next).not.toHaveBeenCalled();
-//     });
-//     it('should handle invalid team ID', async () => {
-//         if (req.params) {
-//            req.params.id = 'invalidObjectId';
-//         }
-//       await updateTeamById(req as Request, res as Response, next);
-//       expect(next).toHaveBeenCalledWith({ code: 400, msg: 'Invalid team ID' });
-//       expect(editTeam).not.toHaveBeenCalled();
-//       expect(res.status).not.toHaveBeenCalled();
-//       expect(res.json).not.toHaveBeenCalled();
-//     });
-//     it('should handle update failure', async () => {
-//       const mockResponse = { acknowledged: true, modifiedCount: 0 };
-//       (editTeam as jest.Mock).mockResolvedValue(mockResponse);;
-//       await updateTeamById(req as Request, res as Response, next);
-//       expect(editTeam).toHaveBeenCalledWith('validObjectId', req.body);
-//       expect(next).toHaveBeenCalledWith({ code: 403, msg: 'We could not perform the update operation on the selected Team at the moment, please try again later' });
-//       expect(res.status).not.toHaveBeenCalled();
-//       expect(res.json).not.toHaveBeenCalled();
-//     });
-//     it('should handle internal server error', async () => {
-//       (editTeam as jest.Mock).mockRejectedValue(new Error('Some error occurred'));
-//       await updateTeamById(req as Request, res as Response, next);
-//       expect(editTeam).toHaveBeenCalledWith('validObjectId', req.body);
-//       expect(next).toHaveBeenCalledWith({ code: 500, msg: 'internal server error, please try again later' });
-//       expect(res.status).not.toHaveBeenCalled();
-//       expect(res.json).not.toHaveBeenCalled();
-//     });
-//   });
+describe('deleteTeamById', () => {
+    let req;
+    let res;
+    let next;
+    beforeEach(() => {
+        req = {
+            params: { id: "validTeamId" },
+            body: {}
+        };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+        next = jest.fn();
+    });
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+    it('should return 400 if team ID is invalid', async () => {
+        if (req.params) {
+            req.params.id = 'invalidTeamId';
+        }
+        await (0, controller_1.deleteTeamById)(req, res, next);
+        expect(next).toHaveBeenCalledWith({ code: 400, msg: 'Invalid team ID' });
+    });
+});
+describe('updateTeamById', () => {
+    let req;
+    let res;
+    let next;
+    beforeEach(() => {
+        req = {
+            params: { id: 'validObjectId' },
+            body: { name: 'New Team Name' }
+        };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+        next = jest.fn();
+    });
+    it('should handle invalid team ID', async () => {
+        if (req.params) {
+            req.params.id = 'invalidObjectId';
+        }
+        await (0, controller_1.updateTeamById)(req, res, next);
+        expect(next).toHaveBeenCalledWith({ code: 400, msg: 'Invalid team ID' });
+        expect(service_1.editTeam).not.toHaveBeenCalled();
+        expect(res.status).not.toHaveBeenCalled();
+        expect(res.json).not.toHaveBeenCalled();
+    });
+});
+describe('getAllTeams', () => {
+    let req;
+    let res;
+    let next;
+    beforeEach(() => {
+        req = {};
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+        next = jest.fn();
+    });
+    it('should return 200 status code and JSON data when successful', async () => {
+        const mockRequest = {};
+        const mockResponse = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+        const mockNext = jest.fn();
+        const mockFn = jest.fn().mockResolvedValue([{ id: 1, name: 'John' }]);
+        await (0, crud_1.fetchAll)(mockFn)(mockRequest, mockResponse, mockNext);
+        expect(mockResponse.status).toHaveBeenCalledWith(200);
+        expect(mockResponse.json).toHaveBeenCalledWith({
+            code: 200,
+            msg: "Successfully fetched",
+            data: [{ id: 1, name: 'John' }],
+        });
+    });
+});

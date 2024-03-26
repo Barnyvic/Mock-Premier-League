@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.accessToken = exports.createToken = exports.comparePassword = exports.hashPassword = void 0;
+exports.verifyToken = exports.accessToken = exports.createToken = exports.comparePassword = exports.hashPassword = void 0;
 const argon2_1 = __importDefault(require("argon2"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const varibales_1 = __importDefault(require("../config/varibales"));
@@ -52,6 +52,7 @@ const verifyToken = (token) => {
         return { code: 401, msg: error.message };
     }
 };
+exports.verifyToken = verifyToken;
 const accessToken = (tokenheader) => {
     if (typeof tokenheader === 'undefined')
         return { code: 401, msg: "Unauthorized. You must provide access token" };

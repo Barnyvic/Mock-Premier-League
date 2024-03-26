@@ -20,7 +20,7 @@ const createFixture = async ({ homeTeam, awayTeam, ...createFixture }) => {
     if (!existingHomeTeam || !existingAwayTeam) {
         return {
             code: 400,
-            message: errorMessage,
+            msg: errorMessage,
         };
     }
     const newFixture = await fixture_schema_1.default.create({

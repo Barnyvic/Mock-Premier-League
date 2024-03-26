@@ -42,7 +42,7 @@ const deleteTeamById = async (req, res, next) => {
             return res.status(200).json({ code: 200, msg: "Successfully deleted" });
         }
         else {
-            return next({ code: 403, msg: 'We could not perform the delete operation on the selected Team at the moment, please try again later' });
+            return next({ code: 404, msg: 'Team id not found' });
         }
     }
     catch (error) {
@@ -61,7 +61,7 @@ const updateTeamById = async (req, res, next) => {
             return res.status(200).json({ code: 200, msg: "Successfully updated" });
         }
         else {
-            return next({ code: 403, msg: 'We could not perform the update operation on the selected Team at the moment, please try again later' });
+            return next({ code: 404, msg: 'Team id not found' });
         }
     }
     catch (error) {
